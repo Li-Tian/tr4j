@@ -62,25 +62,40 @@ public class TR {
     }
 
     public static void warn(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.WARN, dd, format, args);
+        if (logger.isWarnEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.WARN, dd, format, args);
+        }
     }
 
     public static void warn(Throwable t) {
-        logger.warn(t.getMessage(), t);
+        if (logger.isWarnEnabled()) {
+            logger.warn(t.getMessage(), t);
+        }
     }
 
     public static void error(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.ERROR, dd, format, args);
+        if (logger.isErrorEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.ERROR, dd, format, args);
+        }
     }
 
     public static void error(Throwable t) {
-        logger.error(t.getMessage(), t);
+        if (logger.isErrorEnabled()) {
+            logger.error(t.getMessage(), t);
+        }
     }
 
+    public static void fixMe(String format, Object... args) {
+        if (logger.isWarnEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.WARN, dd, "FIX ME!!! : " + format, args);
+        }
+    }
 }
 
 class DebugData {

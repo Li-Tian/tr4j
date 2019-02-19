@@ -56,73 +56,103 @@ public class TR {
     }
 
     public static void enter() {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.TRACE, dd, ">");
+        if (logger.isTraceEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.TRACE, dd, ">");
+        }
     }
 
     public static void exit() {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.TRACE, dd, "<");
+        if (logger.isTraceEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.TRACE, dd, "<");
+        }
     }
 
     public static <T> T exit(T result) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.TRACE, dd, "return %s", result == null ? "null" : result.toString());
-        output(Level.TRACE, dd, "<");
+        if (logger.isTraceEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.TRACE, dd, "return %s", result == null ? "null" : result.toString());
+            output(Level.TRACE, dd, "<");
+        }
         return result;
     }
 
     public static void debug(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.DEBUG, dd, format, args);
+        if (logger.isDebugEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.DEBUG, dd, format, args);
+        }
     }
 
     public static void debug() {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.DEBUG, dd, "");
+        if (logger.isDebugEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.DEBUG, dd, "");
+        }
     }
 
     public static void debug(Object obj) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.DEBUG, dd, "%s", obj == null ? "null" : obj.toString());
+        if (logger.isDebugEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.DEBUG, dd, "%s", obj == null ? "null" : obj.toString());
+        }
     }
 
     public static void info(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.INFO, dd, format, args);
+        if (logger.isInfoEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.INFO, dd, format, args);
+        }
     }
 
     public static void warn(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.WARN, dd, format, args);
+        if (logger.isWarnEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.WARN, dd, format, args);
+        }
     }
 
     public static void warn(Throwable t) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.WARN, dd, t.getMessage());
-        logger.warn(t.getMessage(), t);
+        if (logger.isWarnEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.WARN, dd, t.getMessage());
+            logger.warn(t.getMessage(), t);
+        }
     }
 
     public static void error(String format, Object... args) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.ERROR, dd, format, args);
+        if (logger.isErrorEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.ERROR, dd, format, args);
+        }
     }
 
     public static void error(Throwable t) {
-        StackTraceElement ste = getStackTraceElement();
-        DebugData dd = new DebugData(ste);
-        output(Level.ERROR, dd, t.getMessage());
-        logger.error(t.getMessage(), t);
+        if (logger.isErrorEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.ERROR, dd, t.getMessage());
+            logger.error(t.getMessage(), t);
+        }
+    }
+
+    public static void fixMe(String format, Object... args) {
+        if (logger.isWarnEnabled()) {
+            StackTraceElement ste = getStackTraceElement();
+            DebugData dd = new DebugData(ste);
+            output(Level.WARN, dd, "FIX ME!!! : " + format, args);
+        }
     }
 
 }
