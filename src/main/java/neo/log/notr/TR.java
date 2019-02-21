@@ -7,7 +7,8 @@ import java.lang.invoke.MethodHandles;
 
 public class TR {
 
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final Logger logger =
+            LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static StackTraceElement getStackTraceElement() {
         StackTraceElement[] stackTraces = Thread.currentThread().getStackTrace();
@@ -15,7 +16,8 @@ public class TR {
     }
 
     private static void output(Level level, DebugData dd, String format, Object... args) {
-        String dbgStr = String.format("[%d]%s(%d)%s", dd.threadId, dd.fileName, dd.lineNumber, dd.methodName);
+        String dbgStr = String.format("[%d]%s(%d)%s",
+                dd.threadId, dd.fileName, dd.lineNumber, dd.methodName);
         String logStr = String.format(format, args);
         String finalStr = String.format("%s : %s", dbgStr, logStr);
         switch (level) {

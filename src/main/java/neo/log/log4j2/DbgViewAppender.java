@@ -38,8 +38,8 @@ public final class DbgViewAppender extends AbstractAppender {
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
             kernel32 = (Kernel32) Native.loadLibrary("kernel32", Kernel32.class);
         } else {
-            LOGGER.error("DbgViewAppender can only be deployed on windows, " +
-                    "current OS is " + System.getProperty("os.name"));
+            LOGGER.error("DbgViewAppender can only be deployed on windows, current OS is %s",
+                    System.getProperty("os.name"));
             kernel32 = null;
         }
     }

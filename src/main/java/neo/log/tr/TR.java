@@ -7,20 +7,16 @@ import java.util.Arrays;
 
 public class TR {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private static final org.slf4j.Logger logger =
+            LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private static StackTraceElement getStackTraceElement() {
         StackTraceElement[] stackTraces = Thread.currentThread().getStackTrace();
         return stackTraces[3];
     }
 
-    private static ThreadLocal<IndentContext> indentContext = new ThreadLocal<IndentContext>() {
-
-        @Override
-        protected IndentContext initialValue() {
-            return new IndentContext();
-        }
-    };
+    private static ThreadLocal<IndentContext> indentContext =
+            ThreadLocal.withInitial(IndentContext::new);
 
     private static void output(Level level, DebugData dd, String format, Object... args) {
         IndentContext iu = indentContext.get();
@@ -29,7 +25,8 @@ public class TR {
                 logger.warn(String.format("[%d]TR log indent mismatch", dd.threadId));
             }
         }
-        String dbgStr = String.format("[%d]%s%s(%d)%s", dd.threadId, iu.GetIndent(), dd.fileName, dd.lineNumber, dd.methodName);
+        String dbgStr = String.format("[%d]%s%s(%d)%s",
+                dd.threadId, iu.GetIndent(), dd.fileName, dd.lineNumber, dd.methodName);
         String logStr = String.format(format, args);
         String finalStr = String.format("%s : %s", dbgStr, logStr);
         switch (level) {
@@ -75,7 +72,8 @@ public class TR {
         if (logger.isTraceEnabled()) {
             StackTraceElement ste = getStackTraceElement();
             DebugData dd = new DebugData(ste);
-            output(Level.TRACE, dd, "return %s", result == null ? "null" : result.toString());
+            output(Level.TRACE, dd, "return %s",
+                    result == null ? "null" : result.toString());
             output(Level.TRACE, dd, "<");
         }
         return result;
