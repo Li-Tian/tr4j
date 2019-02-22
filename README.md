@@ -1,4 +1,4 @@
-*tr4j* is a light-weighted log tool to trace detailed execution in java.
+**tr4j** is a light-weighted log tool to trace detailed execution in java.
 
 # Features:
 
