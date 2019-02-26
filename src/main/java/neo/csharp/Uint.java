@@ -5,6 +5,9 @@ public class Uint implements Comparable<Uint> {
     public static final long MIN_VALUE = 0L;
     public static final long MAX_VALUE = 0xFFFFFFFFL;
 
+    public static final Uint ZERO = new Uint(0);
+    public static final Uint ONE = new Uint(1);
+
     private final int internal;
 
     public Uint(int intBits) {

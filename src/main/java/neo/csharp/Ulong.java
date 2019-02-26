@@ -13,6 +13,9 @@ public class Ulong implements Comparable<Ulong> {
      */
     public static final BigInteger MAX_VALUE = new BigInteger("18446744073709551615");
 
+    public static final Ulong ZERO = new Ulong(0L);
+    public static final Ulong ONE = new Ulong(1L);
+
     private final long internal;
 
     public Ulong(long longBits) {
