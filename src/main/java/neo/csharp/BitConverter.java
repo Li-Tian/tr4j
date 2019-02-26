@@ -1,5 +1,8 @@
 package neo.csharp;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -238,4 +241,47 @@ public class BitConverter {
         return Double.longBitsToDouble(toLong(value));
     }
 
+    /**
+     * 7 bit 编码整数。使用 little endian, 每次取出7bit, 如果剩下的bit 全部为0，则将开头位标记为1，否则标记为0。
+     *
+     * @return 7 bit 编码。
+     */
+    public static byte[] get7BitEncodedBytes(int value) {
+        ByteArrayOutputStream buff = new ByteArrayOutputStream();
+        do {
+            int temp = value & 0x7F;
+            value &= 0xFFFFFF80;
+            if (value != 0) {
+                temp |= 0x80;
+            }
+            buff.write(temp);
+            value >>>= 7;
+        } while (value != 0);
+        return buff.toByteArray();
+    }
+
+    /**
+     * 解码7bit 整数。解码格式见 get7BitEncodedBytes
+     * @param inputStream 输入字节流
+     * @return 解码出来的整数
+     * @throws IOException IO异常
+     */
+    public static int decode7BitEncodedInt(InputStream inputStream) throws IOException {
+        int value = 0;
+        boolean foundLeadingZero = false;
+        int i = 0;
+        for (i = 0; i < 5 && !foundLeadingZero; i++){
+            int temp = inputStream.read();
+            if (temp < 0x80) {
+                foundLeadingZero = true;
+            }
+            temp &= 0x7F;
+            temp <<= (i * 7);
+            value |= temp;
+        }
+        if (!foundLeadingZero) {
+            throw new IOException("7bit encoding format error");
+        }
+        return value;
+    }
 }
