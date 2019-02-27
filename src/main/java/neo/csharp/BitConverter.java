@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import neo.log.notr.TR;
+
 /**
  * 从C#移植过来的工具，统一使用 little endian
  */
@@ -247,6 +249,7 @@ public class BitConverter {
      * @return 7 bit 编码。
      */
     public static byte[] get7BitEncodedBytes(int value) {
+        TR.enter();
         ByteArrayOutputStream buff = new ByteArrayOutputStream();
         do {
             int temp = value & 0x7F;
@@ -257,6 +260,7 @@ public class BitConverter {
             buff.write(temp);
             value >>>= 7;
         } while (value != 0);
+        TR.exit();
         return buff.toByteArray();
     }
 
@@ -268,6 +272,7 @@ public class BitConverter {
      * @throws IOException IO异常
      */
     public static int decode7BitEncodedInt(InputStream inputStream) throws IOException {
+        TR.enter();
         int value = 0;
         boolean foundLeadingZero = false;
         int i = 0;
@@ -281,9 +286,86 @@ public class BitConverter {
             value |= temp;
         }
         if (!foundLeadingZero) {
+            TR.exit();
             throw new IOException("7bit encoding format error");
         }
-        return value;
+        return TR.exit(value);
+    }
+
+    /**
+     * VarInt 编码。取值范围是 [0 , 2^63-1].
+     * 根据首字节判定存储格式<br/>
+     * 小于 0xfd	1字节 unsigned byte<br/>
+     * 小于等于 0xffff	3字节 0xfd + unsigned short<br/>
+     * 小于等于 0xffffffff	5字节 0xfe + unsigned int <br/>
+     * 大于 0xffffffff	9字节	0xff + long
+     *
+     * @param value 值
+     * @return 编码后的字节数组
+     */
+    public static byte[] getVarIntEncodedBytes(long value) {
+        TR.enter();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        if (value < 0) {
+            TR.exit();
+            throw new IllegalArgumentException("VarInt out of range");
+        }
+        if (value < 0xFD) {
+            stream.write((byte) value);
+        } else if (value <= 0xFFFF) {
+            stream.write((byte) 0xFD);
+            byte[] temp = getBytes((short) value);
+            stream.write(temp, 0, temp.length);
+        } else if (value <= 0xFFFFFFFFL) {
+            stream.write((byte) 0xFE);
+            byte[] temp = getBytes((int) value);
+            stream.write(temp, 0, temp.length);
+        } else {
+            stream.write((byte) 0xFF);
+            byte[] temp = getBytes(value);
+            stream.write(temp, 0, temp.length);
+        }
+        TR.exit();
+        return stream.toByteArray();
+    }
+
+    /**
+     * 解码 VarInt。细节见 getVarIntAsBytes()
+     *
+     * @param inputStream 输入字节流
+     * @return 解码结果
+     * @throws IOException IO 异常
+     */
+    public static long decodeVarInt(InputStream inputStream) throws IOException {
+        TR.enter();
+        long fb = inputStream.read();
+        if (fb < 0 || fb > 255) {
+            TR.exit();
+            throw new IOException("Wrong format for VarInt");
+        }
+        long value;
+        if (fb == 0xFDL) {
+            byte[] temp = new byte[2];
+            inputStream.read(temp);
+            short tempValue = Short.reverseBytes(ByteBuffer.wrap(temp).getShort());
+            value = tempValue & 0xFFFFL;
+        } else if (fb == 0xFEL) {
+            byte[] temp = new byte[4];
+            inputStream.read(temp);
+            int tempValue = Integer.reverseBytes(ByteBuffer.wrap(temp).getInt());
+            value = tempValue & 0xFFFFFFFFL;
+        } else if (fb == 0xFF) {
+            byte[] temp = new byte[8];
+            inputStream.read(temp);
+            value = Long.reverseBytes(ByteBuffer.wrap(temp).getLong());
+            if (value < 0) {
+                TR.exit();
+                throw new IOException("VarInt out of range of long in java");
+            }
+        } else {
+            value = fb;
+        }
+        return TR.exit(value);
     }
 
     /**

@@ -155,4 +155,20 @@ public class BitConverterTest {
         Assert.assertEquals(0x03, c[2]);
         Assert.assertEquals(0x04, c[3]);
     }
+
+    @Test
+    public void testVarIntEncoding() {
+        long[] values = {0, 1, 2, 128, 255, 65535, Integer.MAX_VALUE, Long.MAX_VALUE};
+        int[] length = {1, 1, 1, 1, 3, 3, 5, 9};
+        try {
+            for (int i = 0; i < values.length; i++) {
+                byte[] temp = BitConverter.getVarIntEncodedBytes(values[i]);
+                assertEquals(length[i], temp.length);
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(temp);
+                assertEquals(values[i], BitConverter.decodeVarInt(inputStream));
+            }
+        } catch (IOException e) {
+            fail(e.getMessage());
+        }
+    }
 }
