@@ -262,6 +262,7 @@ public class BitConverter {
 
     /**
      * 解码7bit 整数。解码格式见 get7BitEncodedBytes
+     *
      * @param inputStream 输入字节流
      * @return 解码出来的整数
      * @throws IOException IO异常
@@ -270,7 +271,7 @@ public class BitConverter {
         int value = 0;
         boolean foundLeadingZero = false;
         int i = 0;
-        for (i = 0; i < 5 && !foundLeadingZero; i++){
+        for (i = 0; i < 5 && !foundLeadingZero; i++) {
             int temp = inputStream.read();
             if (temp < 0x80) {
                 foundLeadingZero = true;
