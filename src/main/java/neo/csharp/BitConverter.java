@@ -126,7 +126,7 @@ public class BitConverter {
      * @return little endian 表示的数组
      */
     public static byte[] getBytes(float value) {
-        long intValue = Float.floatToRawIntBits(value);
+        int intValue = Float.floatToRawIntBits(value);
         return getBytes(intValue);
     }
 

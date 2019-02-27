@@ -11,62 +11,100 @@ public class BitConverterTest {
 
     @Test
     public void toBoolean() {
-        boolean value = true;
-        assertEquals(value, BitConverter.toBoolean(BitConverter.getBytes(value)));
+        boolean[] values = {true, false};
+        for (boolean value : values) {
+            assertEquals(value, BitConverter.toBoolean(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toChar() {
-        char value = 'a';
-        assertEquals(value, BitConverter.toChar(BitConverter.getBytes(value)));
+        char[] values = {'a', '1', '中', '\n'};
+        for (char value : values) {
+            assertEquals(value, BitConverter.toChar(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toShort() {
-        short value = -2;
-        assertEquals(value, BitConverter.toShort(BitConverter.getBytes(value)));
+        short[] values = {0, 1, -1, Short.MAX_VALUE, Short.MIN_VALUE};
+        for (short value : values) {
+            assertEquals(value, BitConverter.toShort(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toUshort() {
-        Ushort value = new Ushort(3);
-        assertEquals(value, BitConverter.toUshort(BitConverter.getBytes(value)));
+        Ushort[] values = {
+                new Ushort(0),
+                new Ushort(1),
+                new Ushort(2),
+                new Ushort(Ushort.MAX_VALUE),
+                new Ushort(Ushort.MIN_VALUE)
+        };
+        for (Ushort value : values) {
+            assertEquals(value, BitConverter.toUshort(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toInt() {
-        int value = -3;
-        assertEquals(value, BitConverter.toInt(BitConverter.getBytes(value)));
+        int[] data = {0, 1, -1, Integer.MAX_VALUE, Integer.MIN_VALUE};
+        for (int value : data) {
+            assertEquals(value, BitConverter.toInt(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toUint() {
-        Uint value = new Uint(4);
-        assertEquals(value, BitConverter.toUint(BitConverter.getBytes(value)));
+        Uint[] data = {
+                new Uint(0),
+                new Uint(1),
+                new Uint(-1),
+                new Uint((int)Uint.MAX_VALUE),
+                new Uint((int)Uint.MIN_VALUE)
+        };
+        for (Uint value : data) {
+            assertEquals(value, BitConverter.toUint(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toLong() {
-        long value = -4;
-        assertEquals(value, BitConverter.toLong(BitConverter.getBytes(value)));
+        long[] data = {0, 1, -1, Long.MAX_VALUE, Long.MIN_VALUE};
+        for (long value : data) {
+            assertEquals(value, BitConverter.toLong(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toUlong() {
-        Ulong value = new Ulong(5);
-        assertEquals(value, BitConverter.toUlong(BitConverter.getBytes(value)));
+        Ulong[] data = {
+                new Ulong(0),
+                new Ulong(1),
+                new Ulong(-1),
+                new Ulong(Ulong.MAX_VALUE.longValue()),
+                new Ulong(Ulong.MIN_VALUE.longValue())
+        };
+        for (Ulong value : data) {
+            assertEquals(value, BitConverter.toUlong(BitConverter.getBytes(value)));
+        }
     }
 
     @Test
     public void toFloat() {
-        float value = -4.1F;
-        assertEquals(value, BitConverter.toFloat(BitConverter.getBytes(value)), 0.0F);
+        float[] data = {0.0F, 1.0F, 1.1F, -1.0F, Float.MAX_VALUE, Float.MIN_VALUE};
+        for (float value : data) {
+            assertEquals(value, BitConverter.toFloat(BitConverter.getBytes(value)), 0.0F);
+        }
     }
 
     @Test
     public void toDouble() {
-        double value = -5.2;
-        assertEquals(value, BitConverter.toDouble(BitConverter.getBytes(value)), 0.0);
+        double[] data = {0, 1, 1.1, -1, Double.MAX_VALUE, Double.MIN_VALUE};
+        for (double value : data) {
+            assertEquals(value, BitConverter.toDouble(BitConverter.getBytes(value)), 0.0);
+        }
     }
 
     @Test
