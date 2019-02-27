@@ -60,6 +60,10 @@ public class Ulong extends Number implements Comparable<Ulong> {
         return new Ulong(s);
     }
 
+    public static Ulong parseUlong(String s, int radix) {
+        return new Ulong(Long.parseUnsignedLong(s, radix));
+    }
+
     public static Ulong remainder(Ulong x, Ulong y) {
         long r = Long.remainderUnsigned(x.internal, y.internal);
         return new Ulong(r);

@@ -61,6 +61,10 @@ public class Ushort extends Number implements Comparable<Ushort> {
         return new Ushort(s);
     }
 
+    public static Ushort parseUshort(String s, int radix) {
+        return new Ushort(Integer.parseUnsignedInt(s, radix));
+    }
+
     public static Ushort max(Ushort x, Ushort y) {
         return compare(x, y) < 0 ? y : x;
     }

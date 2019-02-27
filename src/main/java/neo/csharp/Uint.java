@@ -49,7 +49,11 @@ public class Uint extends Number implements Comparable<Uint> {
     }
 
     public static Uint parseUint(String s) {
-        return new Uint(s);
+        return new Uint(Integer.parseUnsignedInt(s));
+    }
+
+    public static Uint parseUint(String s, int radix) {
+        return new Uint(Integer.parseUnsignedInt(s, radix));
     }
 
     public static Uint remainder(Uint x, Uint y) {
