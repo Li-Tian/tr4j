@@ -1,5 +1,6 @@
 package neo.csharp;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -61,8 +62,8 @@ public class BitConverterTest {
                 new Uint(0),
                 new Uint(1),
                 new Uint(-1),
-                new Uint((int)Uint.MAX_VALUE),
-                new Uint((int)Uint.MIN_VALUE)
+                new Uint((int) Uint.MAX_VALUE),
+                new Uint((int) Uint.MIN_VALUE)
         };
         for (Uint value : data) {
             assertEquals(value, BitConverter.toUint(BitConverter.getBytes(value)));
@@ -141,5 +142,17 @@ public class BitConverterTest {
             fail();
         } catch (IOException e) {
         }
+    }
+
+    @Test
+    public void testMerge() {
+        byte[] a = new byte[]{0x01, 0x02};
+        byte[] b = new byte[]{0x03, 0x04};
+        byte[] c = BitConverter.merge(a, b);
+        Assert.assertEquals(4, c.length);
+        Assert.assertEquals(0x01, c[0]);
+        Assert.assertEquals(0x02, c[1]);
+        Assert.assertEquals(0x03, c[2]);
+        Assert.assertEquals(0x04, c[3]);
     }
 }
