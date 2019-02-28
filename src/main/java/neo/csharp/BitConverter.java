@@ -330,7 +330,7 @@ public class BitConverter {
      * 解码 VarInt。细节见 getVarIntAsBytes()
      *
      * @param inputStream 输入字节流
-     * @return 解码结果
+     * @return 解码结果，用long来表示 unsigned long.
      * @throws IOException IO 异常
      */
     public static long decodeVarInt(InputStream inputStream) throws IOException {
@@ -351,14 +351,10 @@ public class BitConverter {
             inputStream.read(temp);
             int tempValue = Integer.reverseBytes(ByteBuffer.wrap(temp).getInt());
             value = tempValue & 0xFFFFFFFFL;
-        } else if (fb == 0xFF) {
+        } else if (fb == 0xFFL) {
             byte[] temp = new byte[8];
             inputStream.read(temp);
             value = Long.reverseBytes(ByteBuffer.wrap(temp).getLong());
-            if (value < 0) {
-                TR.exit();
-                throw new IOException("VarInt out of range of long in java");
-            }
         } else {
             value = fb;
         }
@@ -453,24 +449,24 @@ public class BitConverter {
         return result;
     }
 
-    public static byte[] addBytes(byte[] data1, byte[] data2) {
-        byte[] data3 = new byte[data1.length + data2.length];
-        System.arraycopy(data1, 0, data3, 0, data1.length);
-        System.arraycopy(data2, 0, data3, data1.length, data2.length);
-        return data3;
-    }
-
-    /**
-     * check byte array a is equal to b
-     */
-    public static boolean isEqual(byte[] a, byte[] b) {
-        if (a.length != b.length) {
-            return false;
-        }
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i]) return false;
-        }
-        return true;
-    }
+//    public static byte[] addBytes(byte[] data1, byte[] data2) {
+//        byte[] data3 = new byte[data1.length + data2.length];
+//        System.arraycopy(data1, 0, data3, 0, data1.length);
+//        System.arraycopy(data2, 0, data3, data1.length, data2.length);
+//        return data3;
+//    }
+//
+//    /**
+//     * check byte array a is equal to b
+//     */
+//    public static boolean isEqual(byte[] a, byte[] b) {
+//        if (a.length != b.length) {
+//            return false;
+//        }
+//        for (int i = 0; i < a.length; i++) {
+//            if (a[i] != b[i]) return false;
+//        }
+//        return true;
+//    }
 
 }
