@@ -26,4 +26,11 @@ public class UintTest {
             assertEquals(expected[i], Uint.parseUint(values[i], radix[i]).longValue());
         }
     }
+
+    @Test
+    public void testMinMaxValue() {
+        assertTrue(Ushort.compare(Ushort.MIN_VALUE_2, Ushort.MAX_VALUE_2) < 0);
+        assertTrue(Uint.compare(Uint.MIN_VALUE_2, Uint.MAX_VALUE_2) < 0);
+        assertTrue(Ulong.compare(Ulong.MIN_VALUE_2, Ulong.MAX_VALUE_2) < 0);
+    }
 }

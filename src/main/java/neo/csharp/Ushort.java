@@ -4,6 +4,8 @@ public class Ushort extends Number implements Comparable<Ushort> {
 
     public static final int MIN_VALUE = 0;
     public static final int MAX_VALUE = 0xFFFF;
+    public static final Ushort MIN_VALUE_2 = new Ushort(MIN_VALUE);
+    public static final Ushort MAX_VALUE_2 = new Ushort(MAX_VALUE);
     public static final int BYTES = Short.BYTES;
     public static final int SIZE = Short.SIZE;
 

@@ -4,6 +4,8 @@ public class Uint extends Number implements Comparable<Uint> {
 
     public static final long MIN_VALUE = 0L;
     public static final long MAX_VALUE = 0xFFFFFFFFL;
+    public static final Uint MIN_VALUE_2 = new Uint(0);
+    public static final Uint MAX_VALUE_2 = new Uint(-1);
     public static final int BYTES = Integer.BYTES;
     public static final int SIZE = Integer.SIZE;
 

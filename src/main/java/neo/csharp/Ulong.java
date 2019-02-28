@@ -12,6 +12,9 @@ public class Ulong extends Number implements Comparable<Ulong> {
      * 2^64-1
      */
     public static final BigInteger MAX_VALUE = new BigInteger("18446744073709551615");
+    public static final Ulong MIN_VALUE_2 = new Ulong(0L);
+    public static final Ulong MAX_VALUE_2 = new Ulong(-1L);
+
     public static final int BYTES = Long.BYTES;
     public static final int SIZE = Long.SIZE;
 
