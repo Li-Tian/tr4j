@@ -159,11 +159,11 @@ public class BinaryReader {
         return obj;
     }
 
-    public <T extends ISerializable> T[] readSerializableArray(IntFunction<T[]> arrayGen, Supplier<T> objGen) {
-        return readSerializableArray(arrayGen, objGen, 0x1000000);
+    public <T extends ISerializable> T[] readArray(IntFunction<T[]> arrayGen, Supplier<T> objGen) {
+        return readArray(arrayGen, objGen, 0x1000000);
     }
 
-    public <T extends ISerializable> T[] readSerializableArray(IntFunction<T[]> arrayGen, Supplier<T> objGen, int max/* = 0x1000000 */) {
+    public <T extends ISerializable> T[] readArray(IntFunction<T[]> arrayGen, Supplier<T> objGen, int max/* = 0x1000000 */) {
         int length = readVarInt(new Ulong(max)).intValue();
         T[] array = arrayGen.apply(length);
         for (int i = 0; i < array.length; i++) {
@@ -243,8 +243,9 @@ public class BinaryReader {
     }
 
     public String readVarString(int max/* = 0x1000000*/) {
+        TR.enter();
         byte[] buf = readVarBytes(max);
-        return new String(buf, UTF_8);
+        return TR.exit(new String(buf, UTF_8));
     }
 
 }

@@ -12,7 +12,7 @@ public class NoTRTest {
             TR.warn("a warn message");
             TR.error("an error message");
             TR.warn(e);
-            //TR.error(e);
+            TR.error(e);
         }
         TR.fixMe("%s", "This is confidential!");
         TR.exit();

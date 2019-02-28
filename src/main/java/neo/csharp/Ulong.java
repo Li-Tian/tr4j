@@ -184,9 +184,13 @@ public class Ulong extends Number implements Comparable<Ulong> {
         return (int) internal;
     }
 
+    /**
+     * 强制转型
+     * @return
+     */
     @Override
     public long longValue() {
-        return 0;
+        return internal;
     }
 
     /**
