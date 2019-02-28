@@ -154,5 +154,12 @@ public class BitConverterTest {
         Assert.assertEquals(0x02, c[1]);
         Assert.assertEquals(0x03, c[2]);
         Assert.assertEquals(0x04, c[3]);
+
+        byte d = 0x05;
+        c = BitConverter.merge(d, a);
+        Assert.assertEquals(3, c.length);
+        Assert.assertEquals(0x05, c[0]);
+        Assert.assertEquals(0x01, c[1]);
+        Assert.assertEquals(0x02, c[2]);
     }
 }

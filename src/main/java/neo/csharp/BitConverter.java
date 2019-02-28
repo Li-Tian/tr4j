@@ -299,4 +299,18 @@ public class BitConverter {
         System.arraycopy(b, 0, c, a.length, b.length);
         return c;
     }
+
+    /**
+     * merge a, b
+     *
+     * @param a 待合并byte
+     * @param b 待合并byte数组
+     * @return merge后的byte数组
+     */
+    public static byte[] merge(byte a, byte[] b) {
+        byte[] c = new byte[1 + b.length];
+        c[0] = a;
+        System.arraycopy(b, 0, c, 1, b.length);
+        return c;
+    }
 }
