@@ -293,12 +293,9 @@ public class BitConverter {
     }
 
     /**
-     * VarInt 编码。取值范围是 [0 , 2^63-1].
-     * 根据首字节判定存储格式<br/>
-     * 小于 0xfd	1字节 unsigned byte<br/>
-     * 小于等于 0xffff	3字节 0xfd + unsigned short<br/>
-     * 小于等于 0xffffffff	5字节 0xfe + unsigned int <br/>
-     * 大于 0xffffffff	9字节	0xff + long
+     * VarInt 编码。取值范围是 [0 , 2^63-1]. 根据首字节判定存储格式<br/> 小于 0xfd	1字节 unsigned byte<br/> 小于等于 0xffff	3字节
+     * 0xfd + unsigned short<br/> 小于等于 0xffffffff	5字节 0xfe + unsigned int <br/> 大于
+     * 0xffffffff	9字节	0xff + long
      *
      * @param value 值
      * @return 编码后的字节数组
@@ -395,4 +392,72 @@ public class BitConverter {
         System.arraycopy(b, 0, c, 1, b.length);
         return c;
     }
+
+    /**
+     * 获取bytes数组切片
+     *
+     * @param src        待切片数组
+     * @param beginIndex 开始为止(包括）
+     * @param endIndex   截至为止（不包括）
+     */
+    public static byte[] subBytes(byte[] src, int beginIndex, int endIndex) {
+        if (beginIndex < 0 || beginIndex > endIndex || endIndex > src.length) {
+            throw new IllegalArgumentException();
+        }
+        byte[] sub = new byte[endIndex - beginIndex];
+
+        System.arraycopy(src, beginIndex, sub, 0, endIndex - beginIndex);
+        return sub;
+    }
+
+    /**
+     * 将byte数组转16进制字符串
+     */
+    public static String toHexString(byte[] value) {
+        StringBuilder sb = new StringBuilder();
+        for (byte b : value) {
+            int v = Byte.toUnsignedInt(b);
+            sb.append(Integer.toHexString(v >>> 4));
+            sb.append(Integer.toHexString(v & 0x0f));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * reverse a byte array
+     */
+    public static byte[] reverse(byte[] v) {
+        byte[] result = new byte[v.length];
+        for (int i = 0; i < v.length; i++) {
+            result[i] = v[v.length - i - 1];
+        }
+        return result;
+    }
+
+    public static byte[] hexToBytes(String value) {
+        if (value == null || value.length() == 0) {
+            return new byte[0];
+        }
+
+        if (value.startsWith("0x")) {
+            value = value.substring(2);
+        }
+
+        if (value.length() % 2 == 1) {
+            throw new IllegalArgumentException();
+        }
+        byte[] result = new byte[value.length() / 2];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = (byte) Integer.parseInt(value.substring(i * 2, i * 2 + 2), 16);
+        }
+        return result;
+    }
+
+    public static byte[] addBytes(byte[] data1, byte[] data2) {
+        byte[] data3 = new byte[data1.length + data2.length];
+        System.arraycopy(data1, 0, data3, 0, data1.length);
+        System.arraycopy(data2, 0, data3, data1.length, data2.length);
+        return data3;
+    }
+
 }

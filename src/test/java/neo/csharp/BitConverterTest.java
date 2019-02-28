@@ -178,4 +178,39 @@ public class BitConverterTest {
             fail(e.getMessage());
         }
     }
+
+
+    @Test
+    public void subBytes() {
+        byte[] sub = BitConverter.subBytes(new byte[]{0x01, 0x02, 0x03, 0x04}, 1, 3);
+        Assert.assertArrayEquals(new byte[]{0x02, 0x03}, sub);
+    }
+
+    @Test
+    public void toHexString() {
+        String hexString = BitConverter.toHexString(new byte[]{0x01, 0x02, 0x03, 0x04});
+        Assert.assertEquals("01020304", hexString);
+    }
+
+    @Test
+    public void reverse() {
+        byte[] old = new byte[]{0x01, 0x02, 0x03, 0x04};
+        byte[] reverse = BitConverter.reverse(old);
+        Assert.assertArrayEquals(new byte[]{0x04, 0x03, 0x02, 0x01}, reverse);
+    }
+
+    @Test
+    public void hexToBytes() {
+        byte[] bytes = BitConverter.hexToBytes("0x01020304");
+        Assert.assertArrayEquals(new byte[]{0x01, 0x02, 0x03, 0x04}, bytes);
+    }
+
+    @Test
+    public void addBytes() {
+        byte[] bytes1 = new byte[]{0x01, 0x02};
+        byte[] bytes2 = new byte[]{0x03, 0x04};
+
+        byte[] bytes3 = BitConverter.addBytes(bytes1, bytes2);
+        Assert.assertArrayEquals(new byte[]{0x01, 0x02, 0x03, 0x04}, bytes3);
+    }
 }
