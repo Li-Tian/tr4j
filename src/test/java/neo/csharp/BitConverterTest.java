@@ -213,4 +213,12 @@ public class BitConverterTest {
         byte[] bytes3 = BitConverter.addBytes(bytes1, bytes2);
         Assert.assertArrayEquals(new byte[]{0x01, 0x02, 0x03, 0x04}, bytes3);
     }
+
+    @Test
+    public void isEqual() {
+        byte[] bytes1 = new byte[]{0x01, 0x02};
+        byte[] bytes2 = new byte[]{0x03, 0x04};
+        Assert.assertFalse(BitConverter.isEqual(bytes1, bytes2));
+        Assert.assertTrue(BitConverter.isEqual(bytes1, bytes1));
+    }
 }
