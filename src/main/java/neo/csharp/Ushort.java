@@ -103,6 +103,10 @@ public class Ushort extends Number implements Comparable<Ushort> {
         return Ushort.divide(this, y);
     }
 
+    public Ushort remainder(Ushort y) {
+        return Ushort.remainder(this, y);
+    }
+
     @Override
     public int compareTo(Ushort o) {
         return compare(this, o);
