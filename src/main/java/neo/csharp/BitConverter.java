@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
+import neo.common.ByteEnum;
+import neo.csharp.io.BinaryWriter;
 import neo.csharp.io.ISerializable;
 import neo.log.notr.TR;
 
@@ -507,6 +509,34 @@ public class BitConverter {
             value_size += serializable.size();
         }
         return getVarSize(values.length) + value_size;
+    }
+
+    /**
+     * 获取枚举数组存储大小
+     *
+     * @param byteEnums 枚举对象
+     * @return getVarSize(byteEnums.length) + byteEnums.length * ByteEnum.BYTES
+     */
+    public static int getVarSize(ByteEnum[] byteEnums) {
+        return getVarSize(byteEnums.length) + byteEnums.length * ByteEnum.BYTES;
+    }
+
+    /**
+     * 获取Byte存储大小
+     *
+     * @param bytes 待存储的bytes数组
+     */
+    public static int getVarSize(byte[] bytes) {
+        return getVarSize(bytes.length) + bytes.length * Byte.BYTES;
+    }
+
+    /**
+     * 获取按照分组存储时的存储大小
+     *
+     * @param bytes 待存储字节数组
+     */
+    public static int getGroupVarSize(byte[] bytes) {
+        return (bytes.length / BinaryWriter.GROUP_SIZE + 1) * (BinaryWriter.GROUP_SIZE + 1);
     }
 
 }

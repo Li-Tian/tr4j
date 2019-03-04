@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import neo.common.ByteEnum;
 import neo.log.tr.TR;
 
 import neo.csharp.io.BinaryReader;
@@ -237,6 +238,14 @@ public class BitConverterTest {
         values[0] = new MySerializable("hello");
         values[1] = new MySerializable("ts");
         Assert.assertEquals(10, BitConverter.getVarSize(values));
+        Assert.assertEquals(3, BitConverter.getVarSize(MyEnum.values()));
+        Assert.assertEquals(3, BitConverter.getVarSize(new byte[]{0x01, 0x02}));
+    }
+
+    @Test
+    public void getGroupVarSize() {
+        byte[] bytes = new byte[]{0x01, 0x02};
+        Assert.assertEquals(17, BitConverter.getGroupVarSize(bytes));
     }
 
     private class MySerializable implements ISerializable {
@@ -260,6 +269,23 @@ public class BitConverterTest {
         @Override
         public void deserialize(BinaryReader reader) {
 
+        }
+    }
+
+    public enum MyEnum implements ByteEnum {
+
+        DEMO1((byte) 0x00),
+        DEMO2((byte) 0x01);
+
+        private byte value;
+
+        MyEnum(byte b) {
+            this.value = b;
+        }
+
+        @Override
+        public byte value() {
+            return value;
         }
     }
 }

@@ -16,7 +16,7 @@ import static neo.csharp.io.CharsetLoader.UTF_8;
  */
 public class BinaryWriter {
 
-    static final int GROUP_SIZE = 16;
+    public static final int GROUP_SIZE = 16;
     private OutputStream outputStream;
 
     public BinaryWriter(OutputStream stream) {
