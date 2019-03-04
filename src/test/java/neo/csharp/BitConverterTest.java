@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+
+import neo.log.tr.TR;
 
 import neo.csharp.io.BinaryReader;
 import neo.csharp.io.BinaryWriter;
@@ -120,6 +123,19 @@ public class BitConverterTest {
         assertArrayEquals(
                 new byte[]{(byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0x0F,},
                 BitConverter.get7BitEncodedBytes(value));
+    }
+
+    @Test
+    public void test7Bit() {
+        int[] values = {
+                0, 1, 127, 128, 255, 256, 511, 512,
+                1024, 1280, 16383, 16384, 65535,
+                2097151, 2097152, 268435455, 268435456, -1
+        };
+        for (int value : values) {
+            byte[] result = BitConverter.get7BitEncodedBytes(value);
+            TR.info("new DataPair(%d, new byte[] {%s}),", value, Arrays.toString(result));
+        }
     }
 
     @Test

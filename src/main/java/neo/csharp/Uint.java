@@ -139,6 +139,10 @@ public class Uint extends Number implements Comparable<Uint> {
         return Uint.divide(this, y);
     }
 
+    public Uint remainder(Uint y) {
+        return Uint.remainder(this, y);
+    }
+
     @Override
     public int compareTo(Uint o) {
         return compare(this, o);

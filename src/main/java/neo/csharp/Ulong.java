@@ -148,6 +148,10 @@ public class Ulong extends Number implements Comparable<Ulong> {
         return Ulong.divide(this, y);
     }
 
+    public Ulong remainder(Ulong y) {
+        return Ulong.remainder(this, y);
+    }
+
     @Override
     public int compareTo(Ulong o) {
         return compare(this, o);
