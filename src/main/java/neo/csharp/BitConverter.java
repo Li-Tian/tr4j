@@ -3,8 +3,10 @@ package neo.csharp;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 
+import neo.csharp.io.ISerializable;
 import neo.log.notr.TR;
 
 /**
@@ -430,6 +432,12 @@ public class BitConverter {
         return result;
     }
 
+    /**
+     * 将16进制字符串转bytes数组
+     *
+     * @param value 待转的16进制字符串
+     * @return bytes array
+     */
     public static byte[] hexToBytes(String value) {
         if (value == null || value.length() == 0) {
             return new byte[0];
@@ -447,6 +455,58 @@ public class BitConverter {
             result[i] = (byte) Integer.parseInt(value.substring(i * 2, i * 2 + 2), 16);
         }
         return result;
+    }
+
+    /**
+     * 获取存储一个压缩型的int的字节大小
+     *
+     * @param value 待存储的int值
+     * @return int
+     * <ul>
+     * <li> 1 个字节， value < 0xFD </li>
+     * <li> 3 个字节， value <= 0xFFFF </li>
+     * <li> 5 个字节， value > 0xFFFF </li>
+     * </ul>
+     */
+    public static int getVarSize(int value) {
+        if (value < 0xFD) {
+            return Byte.BYTES; // one byte
+        } else if (value <= 0xFFFF) {
+            return Byte.BYTES + Ushort.BYTES;
+        } else {
+            return Byte.BYTES + Uint.BYTES;
+        }
+    }
+
+    /**
+     * 获取字符串存储的字节大小
+     *
+     * @param value 待存储的字符串(优先使用utf-8编码的计算)
+     * @return getVarSize(size) + value.bytes.length
+     */
+    public static int getVarSize(String value) {
+        int size = 0;
+        try {
+            size = value.getBytes("utf-8").length;
+        } catch (UnsupportedEncodingException e) {
+            // 优先使用utf-8
+            size = value.getBytes().length;
+        }
+        return getVarSize(size) + size;
+    }
+
+    /**
+     * 获取 ISerializable 数组的存储字节大小
+     *
+     * @param values 待存储的ISerializable数组
+     * @return getVarSize(values.length) + value_size
+     */
+    public static int getVarSize(ISerializable[] values) {
+        int value_size = 0;
+        for (ISerializable serializable : values) {
+            value_size += serializable.size();
+        }
+        return getVarSize(values.length) + value_size;
     }
 
 }

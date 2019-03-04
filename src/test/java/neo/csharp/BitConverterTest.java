@@ -6,6 +6,10 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import neo.csharp.io.BinaryReader;
+import neo.csharp.io.BinaryWriter;
+import neo.csharp.io.ISerializable;
+
 import static org.junit.Assert.*;
 
 public class BitConverterTest {
@@ -205,4 +209,41 @@ public class BitConverterTest {
         Assert.assertArrayEquals(new byte[]{0x01, 0x02, 0x03, 0x04}, bytes);
     }
 
+    @Test
+    public void getVarSize() {
+        Assert.assertEquals(1, BitConverter.getVarSize(0x00));
+        Assert.assertEquals(3, BitConverter.getVarSize(0xFFFF));
+        Assert.assertEquals(5, BitConverter.getVarSize(0xFFFFF));
+
+        Assert.assertEquals(11, BitConverter.getVarSize("helloworld"));
+
+        MySerializable[] values = new MySerializable[2];
+        values[0] = new MySerializable("hello");
+        values[1] = new MySerializable("ts");
+        Assert.assertEquals(10, BitConverter.getVarSize(values));
+    }
+
+    private class MySerializable implements ISerializable {
+
+        public String name;
+
+        public MySerializable(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public int size() {
+            return BitConverter.getVarSize(name);
+        }
+
+        @Override
+        public void serialize(BinaryWriter writer) {
+
+        }
+
+        @Override
+        public void deserialize(BinaryReader reader) {
+
+        }
+    }
 }
