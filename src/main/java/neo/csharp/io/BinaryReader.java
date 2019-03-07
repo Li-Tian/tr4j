@@ -11,7 +11,7 @@ import neo.csharp.BitConverter;
 import neo.csharp.Uint;
 import neo.csharp.Ulong;
 import neo.csharp.Ushort;
-import neo.log.tr.TR;
+import neo.log.notr.TR;
 
 import static neo.csharp.io.BinaryWriter.GROUP_SIZE;
 import static neo.csharp.io.CharsetLoader.UTF_8;
@@ -75,6 +75,11 @@ public class BinaryReader {
     }
 
     public void readFully(byte[] b, int off, int len) {
+        TR.enter();
+        if (len == 0) {
+            TR.exit();
+            return;
+        }
         int readLen = 0;
         try {
             readLen = inputStream.read(b, off, len);
@@ -85,6 +90,7 @@ public class BinaryReader {
             TR.warn(e.getMessage());
             throw new RuntimeException(e);
         }
+        TR.exit();
     }
 
     public char readChar() {

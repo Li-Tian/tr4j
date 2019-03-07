@@ -423,6 +423,20 @@ public class BinaryReaderTest {
         assertArrayEquals(expected, out.toByteArray());
     }
 
+    @Test public void testReadFully() {
+        byte[] data = new byte[0];
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
+        BinaryReader reader = new BinaryReader(inputStream);
+        try {
+            byte[] buf = new byte[0];
+            reader.readFully(buf, 0, 0);
+            reader.readFully(buf);
+            reader.readFully(0);
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
     static class DummySerializableTestObj implements ISerializable {
 
         boolean aBoolean;
