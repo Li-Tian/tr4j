@@ -288,4 +288,21 @@ public class BitConverterTest {
             return value;
         }
     }
+
+    @Test
+    public void startWith() {
+        byte[] a = new byte[]{0x00, 0x01, 0x02, 0x03};
+
+        byte[] b = new byte[]{0x00, 0x01};
+        Assert.assertTrue(BitConverter.startWith(a, b));
+
+        b = new byte[]{0x00, 0x01, 0x02, 0x03};
+        Assert.assertTrue(BitConverter.startWith(a, b));
+
+        b = new byte[]{0x00, 0x01, 0x02, 0x03, 0x04};
+        Assert.assertFalse(BitConverter.startWith(a, b));
+
+        b = new byte[]{0x02};
+        Assert.assertFalse(BitConverter.startWith(a, b));
+    }
 }

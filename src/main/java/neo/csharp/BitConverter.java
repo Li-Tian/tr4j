@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import neo.common.ByteEnum;
 import neo.csharp.io.BinaryWriter;
@@ -537,6 +538,20 @@ public class BitConverter {
      */
     public static int getGroupVarSize(byte[] bytes) {
         return (bytes.length / BinaryWriter.GROUP_SIZE + 1) * (BinaryWriter.GROUP_SIZE + 1);
+    }
+
+
+    /**
+     * check whether bytes start with sub sequence
+     *
+     * @param bytes       source byte array
+     * @param subsequence sub sequence byte array
+     * @return if `bytes` start with `subsequence` then return true, otherwise false.
+     */
+    public static boolean startWith(byte[] bytes, byte[] subsequence) {
+        if (bytes.length < subsequence.length) return false;
+        byte[] prefix = subBytes(bytes, 0, subsequence.length);
+        return Arrays.equals(prefix, subsequence);
     }
 
 }
