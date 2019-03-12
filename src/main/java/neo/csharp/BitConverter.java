@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import neo.common.ByteEnum;
+import neo.csharp.common.ByteEnum;
 import neo.csharp.io.BinaryWriter;
 import neo.csharp.io.ISerializable;
 import neo.log.notr.TR;

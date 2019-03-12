@@ -7,7 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import neo.common.ByteEnum;
+import neo.csharp.common.ByteEnum;
 import neo.log.tr.TR;
 
 import neo.csharp.io.BinaryReader;

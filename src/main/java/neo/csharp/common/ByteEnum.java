@@ -1,4 +1,4 @@
-package neo.common;
+package neo.csharp.common;
 
 import neo.log.notr.TR;
 
