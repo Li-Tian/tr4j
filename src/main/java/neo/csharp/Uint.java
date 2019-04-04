@@ -227,4 +227,14 @@ public class Uint extends Number implements Comparable<Uint> {
     public Uint xor(Uint y) {
         return Uint.xor(this, y);
     }
+
+    public byte[] toBytes() {
+        int value = internal;
+        return new byte[]{
+                (byte) value,
+                (byte) (value >>> 8),
+                (byte) (value >>> 16),
+                (byte) (value >>> 24)
+        };
+    }
 }

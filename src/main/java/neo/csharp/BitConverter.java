@@ -388,6 +388,9 @@ public class BitConverter {
      * @return merge后的byte数组
      */
     public static byte[] merge(byte a, byte[] b) {
+        if (b == null) {
+            return new byte[a];
+        }
         byte[] c = new byte[1 + b.length];
         c[0] = a;
         System.arraycopy(b, 0, c, 1, b.length);
@@ -409,6 +412,16 @@ public class BitConverter {
 
         System.arraycopy(src, beginIndex, sub, 0, endIndex - beginIndex);
         return sub;
+    }
+
+    /**
+     * 获取bytes数组切片
+     *
+     * @param src        待切片数组
+     * @param beginIndex 开始为止(包括）, 截至到末尾
+     */
+    public static byte[] subBytes(byte[] src, int beginIndex) {
+        return subBytes(src, beginIndex, src.length);
     }
 
     /**

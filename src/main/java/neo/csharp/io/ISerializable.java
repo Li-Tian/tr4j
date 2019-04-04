@@ -1,25 +1,25 @@
 package neo.csharp.io;
 
 /**
- * 对象的2进制格式序列化和反序列化方法接口
+ * Serializable interface, provides serialization and deserialization method.
  */
 public interface ISerializable {
     /**
-     * 2进制格式序列化的大小
+     * get the size of storage
      */
     int size();
 
     /**
-     * 对象的2进制格式序列化方法
+     * Serialization method
      *
-     * @param writer 二进制输出器
+     * @param writer BinaryWriter
      */
     void serialize(BinaryWriter writer);
 
     /**
-     * 对象的2进制格式反序列化方法
+     * Deserialization method
      *
-     * @param reader 二进制读入器
+     * @param reader BinaryReader
      */
     void deserialize(BinaryReader reader);
 }
