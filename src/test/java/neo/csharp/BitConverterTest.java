@@ -205,6 +205,7 @@ public class BitConverterTest {
     public void subBytes() {
         byte[] sub = BitConverter.subBytes(new byte[]{0x01, 0x02, 0x03, 0x04}, 1, 3);
         Assert.assertArrayEquals(new byte[]{0x02, 0x03}, sub);
+        Assert.assertArrayEquals(new byte[]{0x03}, BitConverter.subBytes(sub, 1));
     }
 
     @Test

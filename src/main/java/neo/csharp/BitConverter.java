@@ -389,7 +389,7 @@ public class BitConverter {
      */
     public static byte[] merge(byte a, byte[] b) {
         if (b == null) {
-            return new byte[a];
+            return new byte[]{a};
         }
         byte[] c = new byte[1 + b.length];
         c[0] = a;
