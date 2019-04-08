@@ -383,6 +383,24 @@ public class BitConverter {
     /**
      * merge a, b
      *
+     * @param a 待合并byte数组
+     * @param b 待合并byte
+     * @return merge后的byte数组
+     */
+    public static byte[] merge(byte[] a, byte b) {
+        if (a == null) {
+            return new byte[]{b};
+        }
+        byte[] c = new byte[1 + a.length];
+        c[c.length - 1] = b;
+        System.arraycopy(a, 0, c, 0, a.length);
+        return c;
+    }
+
+
+    /**
+     * merge a, b
+     *
      * @param a 待合并byte
      * @param b 待合并byte数组
      * @return merge后的byte数组
